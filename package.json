@@ -1,13 +1,14 @@
 {
-  "name": "healthy-archives-arrange-backend",
+  "name": "archives-arrange-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "根据页面输入生成docx文档",
   "main": "index.js",
   "scripts": {
     "prestart": "babel src/index.js -o dist/index.js",
     "start": "node dist/index.js"
   },
-  "author": "",
+  "author": "yihongxian",
+  "email": "hongxian.yi@foxmail.com",
   "license": "ISC",
   "dependencies": {
     "dayjs": "^1.8.16",
