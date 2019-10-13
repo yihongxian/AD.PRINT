@@ -4,13 +4,14 @@
   "description": "根据页面输入生成docx文档",
   "main": "index.js",
   "scripts": {
-    "prestart": "babel src/index.js -o dist/index.js",
-    "start": "node dist/index.js"
+    "start": "babel-watch src/index.js",
+    "release": "yarn install && babel src --out-dir dist && node dist/index.js"
   },
   "author": "yihongxian",
   "email": "hongxian.yi@foxmail.com",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dayjs": "^1.8.16",
     "docx-templates": "^3.1.1",
     "express": "^4.17.1",
@@ -20,6 +21,7 @@
     "@babel/cli": "^7.6.2",
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
-    "babel-plugin-lodash": "^3.3.4"
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-watch": "^7.0.0"
   }
 }

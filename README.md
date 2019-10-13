@@ -42,3 +42,14 @@
 | ---------- | -------- | ------------------- |
 | department | String   | 部门                |
 | duration   | Int      | 保管期限 default:30 |
+
+## 项目启动
+
+### 开发环境中使用npm start
+
+script.start 使用 babel-watch 监听 src 并启动服务器。
+当 src 目录下的文件变化时，对 express 服务器进行热重启
+
+### 生产环境中 npm run release
+
+
