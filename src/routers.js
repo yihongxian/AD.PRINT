@@ -3,6 +3,10 @@ import { create } from "./utils";
 
 const router = express.Router();
 
+router.get("/test", (request, response) => {
+  response.send("123");
+});
+
 router.post("/archive/create", (request, response) => {
   const body = request.body;
 

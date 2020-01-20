@@ -1,3 +1,4 @@
+import path from "path";
 import express from "express";
 import bodyParser from "body-parser";
 
@@ -12,20 +13,24 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static(path.join(__dirname, "huali")));
+
 app.use("/", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "content-type,auth-name");
   res.header("Access-Control-Allow-Methods", "*");
   const { headers } = req;
 
-  // TODO: 加个密码测试下，以后用数据库来保存密码;
-  if (headers["auth-name"] === AUTH_NAME) {
-    next();
-  } else {
-    res.send(403, "没有权限");
-  }
+  next();
+
+  // // TODO: 加个密码测试下，以后用数据库来保存密码;
+  // if (headers["auth-name"] === AUTH_NAME) {
+  //   next();
+  // } else {
+  //   res.send(403, "没有权限");
+  // }
 });
 
-app.use("/", routers);
+app.use("/api", routers);
 
-app.listen(3000);
+app.listen(8080);
