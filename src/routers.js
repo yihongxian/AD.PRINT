@@ -1,14 +1,28 @@
 import express from "express";
-import { create } from "./utils";
+import compressing from 'compressing';
+
+import { merge, create } from "./utils";
 
 const router = express.Router();
 
-router.get("/test", (request, response) => {
-  response.send("123");
+router.post("/config/merge", (request, response) => {
+  console.log(request.body);
+  const { catalogs, categories } = request.body;
+  const result = {};
+  if (catalogs) {
+    result.catalogs = merge.mergeCatalog(catalogs);
+  }
+
+  if (categories) {
+    result.categories = merge.mergeCategory(categories);
+  }
+
+  response.send(result);
 });
 
-router.post("/archive/create", (request, response) => {
+router.post("/file/create", (request, response) => {
   const body = request.body;
+  console.log(body)
 
   create(body).then(
     res => {

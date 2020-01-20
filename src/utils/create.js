@@ -14,29 +14,33 @@ const Types = {
 const DATE_FORMAT = "YYYY年MM月";
 const DATETIME_FORMAT = "YYYY.MM.DD";
 
-function createTemplate(config, type) {
+function transformCovers(covers) {
+  if (covers[1]) {
+    return `${covers[0]}(${covers[1]})`;
+  } else {
+    return covers[0];
+  }
+}
+
+function createTemplate(config) {
   return docTemplates({
     cmdDelimiter: ["{", "}"],
     template: path.resolve(process.cwd(), "template/index.docx"),
     output: path.resolve(
       process.cwd(),
-      `outputs/${type}/${config.content[0]}.docx`
+      `outputs/${config.title}/${transformCovers(config.covers)}.docx`
     ),
     data: config
   });
 }
 
-export default medicals =>
+export default files =>
   Promise.all(
-    medicals.map(({ time, user, address, catalogs, ...data }) => {
+    files.map(({ time, catalogs, ...data }) => {
       const applyTime = dayjs(time);
       const startSaveTimeFormat = applyTime.format(DATE_FORMAT);
       const endSaveTimeFormat = applyTime.add(30, "year").format(DATE_FORMAT);
       const checkTimeFormat = applyTime.add(3, "month").format(DATETIME_FORMAT);
-
-      data.content = [];
-      user && data.content.push(user);
-      address && data.content.push(address);
 
       data.check_time = checkTimeFormat;
       data.section = `自${startSaveTimeFormat}至${endSaveTimeFormat}`;
@@ -51,6 +55,6 @@ export default medicals =>
         }
       });
 
-      return createTemplate(data, Types.medical);
+      return createTemplate(data);
     })
   );

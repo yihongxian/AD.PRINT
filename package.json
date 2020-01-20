@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "compressing": "^1.5.0",
     "dayjs": "^1.8.16",
     "docx-templates": "^3.1.1",
     "express": "^4.17.1",
