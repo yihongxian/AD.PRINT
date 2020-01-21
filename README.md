@@ -1,6 +1,9 @@
-# ArchivesArrangeBack(档案整理后台)
+# AD.PRINT(档案整理后台)
 
-根据页面输入生成 docx 文档
+文件目录管理；
+文件分类管理；
+文件模板管理（feature）；
+生成docx文档，压缩并下载；
 
 ## 数据结构
 
