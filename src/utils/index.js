@@ -1,2 +1,2 @@
-export { default as merge } from "./merge";
+export { default as config } from "./config";
 export { default as create } from "./create";

@@ -1,6 +1,7 @@
 import _ from "lodash";
-import dayjs from "dayjs";
 import path from "path";
+import dayjs from "dayjs";
+import compressing from "compressing";
 import docTemplates from "docx-templates";
 
 const PAGE_NUMBER_WIDTH = 3;
@@ -22,39 +23,55 @@ function transformCovers(covers) {
   }
 }
 
-function createTemplate(config) {
-  return docTemplates({
-    cmdDelimiter: ["{", "}"],
-    template: path.resolve(process.cwd(), "template/index.docx"),
-    output: path.resolve(
-      process.cwd(),
-      `outputs/${config.title}/${transformCovers(config.covers)}.docx`
-    ),
-    data: config
+function transformFileData({ time, catalogs, ...data }) {
+  const applyTime = dayjs(time);
+  const startSaveTimeFormat = applyTime.format(DATE_FORMAT);
+  const endSaveTimeFormat = applyTime.add(30, "year").format(DATE_FORMAT);
+  const checkTimeFormat = applyTime.add(3, "month").format(DATETIME_FORMAT);
+
+  data.check_time = checkTimeFormat;
+  data.section = `自${startSaveTimeFormat}至${endSaveTimeFormat}`;
+  data.catalogs = _.times(CATALOG_MAX_LENGTH, function(index) {
+    const item = catalogs[index];
+    if (item) {
+      item.sort = index + 1;
+      item.pn = _.padStart(item.pn, PAGE_NUMBER_WIDTH, "0");
+      return item;
+    } else {
+      return {};
+    }
   });
+  return data;
 }
 
-export default files =>
-  Promise.all(
-    files.map(({ time, catalogs, ...data }) => {
-      const applyTime = dayjs(time);
-      const startSaveTimeFormat = applyTime.format(DATE_FORMAT);
-      const endSaveTimeFormat = applyTime.add(30, "year").format(DATE_FORMAT);
-      const checkTimeFormat = applyTime.add(3, "month").format(DATETIME_FORMAT);
-
-      data.check_time = checkTimeFormat;
-      data.section = `自${startSaveTimeFormat}至${endSaveTimeFormat}`;
-      data.catalogs = _.times(CATALOG_MAX_LENGTH, function(index) {
-        const item = catalogs[index];
-        if (item) {
-          item.sort = index + 1;
-          item.pn = _.padStart(item.pn, PAGE_NUMBER_WIDTH, "0");
-          return item;
-        } else {
-          return {};
-        }
+export default (files, targets) => {
+  return new Promise((resolve, reject) => {
+    Promise.all(
+      files.map(item => {
+        const data = transformFileData(item);
+        return docTemplates({
+          cmdDelimiter: ["{", "}"],
+          template: path.resolve(process.cwd(), "template/index.docx"),
+          output: path.resolve(
+            targets.file,
+            `${data.title}/${transformCovers(data.covers)}.docx`
+          ),
+          data
+        });
+      })
+    )
+      .then(res => {
+        compressing.zip
+          .compressDir(targets.file, targets.zip)
+          .then(() => {
+            resolve(res);
+          })
+          .catch(() => {
+            reject("压缩失败");
+          });
+      })
+      .catch(() => {
+        reject("创建失败");
       });
-
-      return createTemplate(data);
-    })
-  );
+  });
+};

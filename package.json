@@ -1,11 +1,12 @@
 {
-  "name": "archives-arrange-backend",
+  "name": "ad.print",
   "version": "1.0.0",
   "description": "根据页面输入生成docx文档",
   "main": "index.js",
   "scripts": {
     "start": "babel-watch src/index.js",
-    "release": "yarn install && babel src --out-dir dist && node dist/index.js"
+    "release": "yarn install && babel src --out-dir dist && node dist/index.js",
+    "clean": "rm -rf zips outputs && mkdir zips outputs"
   },
   "author": "yihongxian",
   "email": "hongxian.yi@foxmail.com",
