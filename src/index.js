@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, "../huali-ui")));
+app.use(express.static(path.join(__dirname, "../../AD.PCEDIT/build")));
 
 app.use("/", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
