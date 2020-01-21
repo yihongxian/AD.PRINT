@@ -7,11 +7,6 @@ import docTemplates from "docx-templates";
 const PAGE_NUMBER_WIDTH = 3;
 const CATALOG_MAX_LENGTH = 16;
 
-const Types = {
-  // 医疗机构执业审批
-  medical: "medical"
-};
-
 const DATE_FORMAT = "YYYY年MM月";
 const DATETIME_FORMAT = "YYYY.MM.DD";
 

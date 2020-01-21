@@ -9,8 +9,8 @@
 | 字段名   | 数据类型       | 描述           |
 | -------- | -------------- | -------------- |
 | title    | String         | 文件名称       |
-| user     | String         | 申请人         |
-| address  | String         | 地址           |
+| covers[0]| String         | 申请人         |
+| covers[1]| String         | 地址           |
 | time     | Int            | 创建申请时间戳 |
 | creater  | String         | 立卷人         |
 | checker  | String         | 检查人         |
@@ -29,7 +29,7 @@
 | 字段名     | 数据类型       | 描述                                           |
 | ---------- | -------------- | ---------------------------------------------- |
 | title      | String         | 文件封面名称                                   |
-| contents   | Array<Sting>   | 文件封面内容                                   |
+| covers     | Array<Sting>   | 文件封面内容                                   |
 | section    | String         | 有效期区间。根据 time 和 duration 计算         |
 | creater    | String         | 立卷人                                         |
 | checker    | String         | 检查人                                         |
@@ -38,10 +38,6 @@
 
 ### 数据配置
 
-| 字段名     | 数据类型 | 描述                |
-| ---------- | -------- | ------------------- |
-| department | String   | 部门                |
-| duration   | Int      | 保管期限 default:30 |
 
 ## 项目启动
 
