@@ -5,7 +5,7 @@ import compressing from "compressing";
 import docTemplates from "docx-templates";
 
 const PAGE_NUMBER_WIDTH = 3;
-const CATALOG_MAX_LENGTH = 16;
+const CATALOG_MAX_LENGTH = 15;
 
 const DATE_FORMAT = "YYYY年MM月";
 const DATETIME_FORMAT = "YYYY.MM.DD";
@@ -40,16 +40,20 @@ function transformFileData({ time, catalogs, ...data }) {
 }
 
 export default (files, targets) => {
+  const indexs = {};
   return new Promise((resolve, reject) => {
     Promise.all(
-      files.map(item => {
+      files.slice(0,312).map((item, index) => {
         const data = transformFileData(item);
+        indexs[data.title] = indexs[data.title] || 0;
+        indexs[data.title] += 1;
+        const fileName = transformCovers(data.covers);
         return docTemplates({
           cmdDelimiter: ["{", "}"],
           template: path.resolve(process.cwd(), "template/index.docx"),
           output: path.resolve(
             targets.file,
-            `${data.title}/${transformCovers(data.covers)}.docx`
+            `${data.title}/${indexs[data.title]}.${fileName}.docx`
           ),
           data
         });

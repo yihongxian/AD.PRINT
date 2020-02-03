@@ -9,7 +9,7 @@ const AUTH_NAME = "zds";
 const app = express();
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
