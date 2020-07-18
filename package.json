@@ -17,7 +17,7 @@
     "dayjs": "^1.8.16",
     "docx-templates": "^3.1.1",
     "express": "^4.17.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.2",
